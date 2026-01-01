@@ -1,0 +1,23 @@
+name: idle_cli
+description: Deterministic, JSON-only CLI for idle_core simulations.
+version: 0.1.0
+repository: https://github.com/tac0de/idle_cli
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  args: ^2.7.0
+  clock: ^1.1.2
+  idle_core: ^0.3.1
+  idle_save: ^0.3.2
+
+dev_dependencies:
+  # Not required at runtime; included so this repo can stay aligned with
+  # `idle_flutter` save/lifecycle patterns when designing compatibility.
+  idle_flutter: ^0.2.0
+  lints: ^6.0.0
+  test: ^1.25.6
+
+executables:
+  idle: idle

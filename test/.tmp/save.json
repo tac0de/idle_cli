@@ -1,0 +1,1 @@
+{"changeSet":{"added":[],"note":"idle_cli.save","removed":[],"updated":[]},"checksum":"01f425c3383ed4047721955170cb53f118de203c195e1b5eca21dfc60b2bc285","createdAtMs":0,"payload":{"dtMs":1000,"format":"idle_cli.snapshot","lastSeenMs":0,"state":{"gold":0,"miners":1,"ticks":0},"version":1},"saveReason":"manual","schemaVersion":1,"updatedAtMs":0}
