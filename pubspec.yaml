@@ -1,6 +1,6 @@
 name: idle_cli
 description: Deterministic, JSON-only CLI for idle_core simulations.
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/tac0de/idle_cli
 
 environment:

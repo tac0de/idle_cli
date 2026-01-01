@@ -1,3 +1,7 @@
+## 0.1.1
+
+- Pub dev score fix.
+
 ## 0.1.0
 
 - Initial public release.

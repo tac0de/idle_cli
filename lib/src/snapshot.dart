@@ -1,19 +1,36 @@
 import 'game.dart';
 
+/// A portable snapshot of an `idle_cli` simulation.
+///
+/// Snapshots are intended to be deterministic and composable:
+/// - Produced and consumed as JSON (stdin/stdout and files).
+/// - Identified by [format] and [version] for safe decoding.
 class IdleCliSnapshot {
+  /// Snapshot discriminator used in JSON under the `format` key.
   static const String format = 'idle_cli.snapshot';
+
+  /// Snapshot schema version used in JSON under the `version` key.
   static const int version = 1;
 
+  /// Tick duration in milliseconds.
   final int dtMs;
+
+  /// Total elapsed simulation time in milliseconds since the snapshot origin.
   final int lastSeenMs;
+
+  /// The current game state payload for this snapshot.
   final IdleLabState state;
 
+  /// Creates a snapshot with explicit fields.
   const IdleCliSnapshot({
     required this.dtMs,
     required this.lastSeenMs,
     required this.state,
   });
 
+  /// Creates an initial snapshot with [lastSeenMs] set to `0`.
+  ///
+  /// Throws [ArgumentError] if [dtMs] is not positive.
   factory IdleCliSnapshot.create({
     required int dtMs,
     required IdleLabState state,
@@ -24,6 +41,10 @@ class IdleCliSnapshot {
     return IdleCliSnapshot(dtMs: dtMs, lastSeenMs: 0, state: state);
   }
 
+  /// Decodes a snapshot from JSON.
+  ///
+  /// Validates [format], [version], and the expected field types.
+  /// Throws [FormatException] when the input is invalid.
   factory IdleCliSnapshot.fromJson(Map<String, dynamic> json) {
     final format = json['format'];
     if (format != IdleCliSnapshot.format) {
@@ -54,6 +75,7 @@ class IdleCliSnapshot {
     );
   }
 
+  /// Returns a copy of this snapshot with selected fields replaced.
   IdleCliSnapshot copyWith({int? dtMs, int? lastSeenMs, IdleLabState? state}) {
     return IdleCliSnapshot(
       dtMs: dtMs ?? this.dtMs,
@@ -62,6 +84,7 @@ class IdleCliSnapshot {
     );
   }
 
+  /// Encodes this snapshot to JSON.
   Map<String, dynamic> toJson() => {
     'format': format,
     'version': version,

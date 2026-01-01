@@ -3,6 +3,10 @@ import 'dart:io';
 
 import 'package:idle_save/idle_save.dart';
 
+/// Abstraction over stdin/stdout/stderr for the JSON-only CLI.
+///
+/// This keeps command implementations deterministic and testable by allowing
+/// stdin/stdout/stderr to be injected.
 class CliIo {
   final Stream<List<int>> _stdin;
   final bool _stdinHasTerminal;
@@ -19,6 +23,7 @@ class CliIo {
        _writeStdoutLine = writeStdoutLine,
        _writeStderrLine = writeStderrLine;
 
+  /// Uses the process' `stdin`, `stdout`, and `stderr`.
   factory CliIo.system() {
     return CliIo._(
       stdin: stdin,
@@ -28,6 +33,7 @@ class CliIo {
     );
   }
 
+  /// Creates a [CliIo] instance with injectable streams/sinks (useful for tests).
   factory CliIo.forTesting({
     required Stream<List<int>> stdin,
     required bool stdinHasTerminal,
@@ -42,8 +48,10 @@ class CliIo {
     );
   }
 
+  /// Whether stdin is connected to a terminal (i.e. not piped).
   bool get stdinHasTerminal => _stdinHasTerminal;
 
+  /// Reads all of stdin as a string, or throws if stdin is a terminal.
   Future<String> readStdinOrFail() async {
     if (_stdinHasTerminal) {
       throw const FormatException(
@@ -55,6 +63,9 @@ class CliIo {
     return utf8.decode(await _stdin.expand((chunk) => chunk).toList());
   }
 
+  /// Writes [json] using canonical JSON encoding.
+  ///
+  /// By default output is written to stdout; set [toStderr] to write to stderr.
   void writeJson(Map<String, dynamic> json, {bool toStderr = false}) {
     final raw = const CanonicalJsonSaveCodec().encode(json);
     (toStderr ? _writeStderrLine : _writeStdoutLine)(raw);

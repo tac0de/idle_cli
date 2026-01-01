@@ -9,6 +9,14 @@ import 'snapshot.dart';
 import 'game.dart';
 import 'save.dart';
 
+/// Runs the `idle` command-line interface.
+///
+/// This is the programmatic entrypoint for `bin/idle.dart`. It parses [args],
+/// performs exactly one command action (`create`, `tick`, `analyze`, `save`,
+/// `load`, `help`), and writes JSON to stdout via [CliIo.writeJson].
+///
+/// On failure it returns a non-zero exit code and writes structured error JSON
+/// to stderr. Pass `--debug` to include a stack trace in that error JSON.
 Future<int> runIdleCli(List<String> args, {CliIo? io}) async {
   final effectiveIo = io ?? CliIo.system();
   var debug = false;

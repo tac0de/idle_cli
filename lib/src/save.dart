@@ -1,7 +1,12 @@
 import 'package:clock/clock.dart';
 import 'package:idle_save/idle_save.dart';
 
+/// Helpers for creating `idle_save` managers used by the CLI.
 class IdleCliSave {
+  /// Creates a [SaveManager] configured for deterministic, portable JSON saves.
+  ///
+  /// The returned manager uses canonical JSON encoding and a fixed clock based
+  /// on [nowMs] (typically the snapshot's `lastSeenMs`).
   static SaveManager<Map<String, dynamic>> managerForPath({
     required String path,
     String? backupPath,
